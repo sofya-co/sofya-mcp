@@ -56,12 +56,25 @@ Add this to your MCP config (e.g. `claude_desktop_config.json`, or `.cursor/mcp.
 
 ### Codex
 
+Add it with the Codex CLI:
+
+```bash
+codex mcp add sofya --env SOFYA_API_KEY=ay_live_... -- npx -y sofya-mcp
+```
+
+Or edit `~/.codex/config.toml` directly. Note Codex puts environment variables in
+a nested `[mcp_servers.<name>.env]` table:
+
 ```toml
 [mcp_servers.sofya]
 command = "npx"
 args = ["-y", "sofya-mcp"]
-env = { SOFYA_API_KEY = "ay_live_..." }
+
+[mcp_servers.sofya.env]
+SOFYA_API_KEY = "ay_live_..."
 ```
+
+Then run `/mcp` inside Codex to confirm the server is connected.
 
 > **Already using Sofya's hosted MCP?** Sofya also serves a remote MCP endpoint at
 > `https://sofya.co/mcp` (Bearer auth, no install). Use this `sofya-mcp` package
