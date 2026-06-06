@@ -1,0 +1,26 @@
+# Smithery configuration - https://smithery.ai/docs
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required:
+      - sofyaApiKey
+    properties:
+      sofyaApiKey:
+        type: string
+        title: Sofya API Key
+        description: Your Sofya API key (ay_live_...). Get one at https://sofya.co
+      sofyaBaseUrl:
+        type: string
+        title: Sofya Base URL
+        description: Override the Sofya API base URL.
+        default: https://sofya.co
+  commandFunction: |-
+    (config) => ({
+      command: 'node',
+      args: ['build/index.js'],
+      env: {
+        SOFYA_API_KEY: config.sofyaApiKey,
+        ...(config.sofyaBaseUrl ? { SOFYA_BASE_URL: config.sofyaBaseUrl } : {})
+      }
+    })
