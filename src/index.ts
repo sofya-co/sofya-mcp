@@ -284,11 +284,12 @@ async function main(): Promise<void> {
   }
 
   if (!API_KEY) {
+    // Start anyway so clients and registries can list tools without credentials.
+    // Tool calls return a clear error until a key is provided.
     process.stderr.write(
-      "Error: no Sofya API key provided. Set SOFYA_API_KEY (or pass --api-key). " +
-        "Get a key at https://sofya.co\n",
+      "Warning: no Sofya API key provided. Tools are listed but calls will fail until " +
+        "you set SOFYA_API_KEY (or pass --api-key). Get a key at https://sofya.co\n",
     );
-    process.exit(1);
   }
 
   const client = makeClient();
@@ -311,6 +312,20 @@ async function main(): Promise<void> {
     if (!TOOLS.some((t) => t.name === name)) {
       return {
         content: [{ type: "text", text: `Unknown tool: ${name}` }],
+        isError: true,
+      };
+    }
+
+    if (!API_KEY) {
+      return {
+        content: [
+          {
+            type: "text",
+            text:
+              "No Sofya API key provided. Set SOFYA_API_KEY (or pass --api-key). " +
+              "Get a key at https://sofya.co",
+          },
+        ],
         isError: true,
       };
     }
