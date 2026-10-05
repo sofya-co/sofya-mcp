@@ -9,7 +9,7 @@ Use it either way:
 - **Hosted (no install):** connect your client to `https://sofya.co/mcp` with your API key as a Bearer token. This is the server listed in the MCP registry as `co.sofya/sofya`.
 - **Local:** run this `sofya-mcp` package over stdio. It is a thin wrapper around the Sofya REST API with the same tools.
 
-All four tools are read-only. New accounts signed up with GitHub get 2,000 free credits a month.
+All four tools are read-only. Eligible GitHub accounts get 2,000 free credits a month.
 
 ## Tools
 
