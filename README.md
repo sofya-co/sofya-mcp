@@ -4,23 +4,69 @@
 
 MCP server for [Sofya](https://sofya.co) - web **search**, **fetch**, **extract**, and deep **research** for AI agents, exposed over the [Model Context Protocol](https://modelcontextprotocol.io).
 
-It runs locally over stdio and is a thin wrapper around the Sofya REST API. Bring your own Sofya API key.
+Use it either way:
+
+- **Hosted (no install):** connect your client to `https://sofya.co/mcp` with your API key as a Bearer token. This is the server listed in the MCP registry as `co.sofya/sofya`.
+- **Local:** run this `sofya-mcp` package over stdio. It is a thin wrapper around the Sofya REST API with the same tools.
+
+All four tools are read-only. New accounts signed up with GitHub get 2,000 free credits a month.
 
 ## Tools
 
 | Tool | What it does | Cost |
 |------|--------------|------|
-| `search` | Search the web and get extracted page content (not just snippets). Supports `news` topic, domain filters, freshness, and optional AI-synthesized `answer`. | 1-3 credits (+5 for `include_answer`) |
-| `fetch` | Fetch up to 10 URLs as clean markdown. Also handles PDF, DOCX, and more. | 1 credit / URL |
-| `extract` | Fetch a page and pull specific structured info using AI. | 5 credits |
-| `research` | Decompose a question into sub-queries, read many sources in parallel, and synthesize a cited report. | 25 credits |
+| `search` | Search the web and get extracted page content (not just snippets). Supports `news` topic, domain filters, freshness, and optional AI-synthesized `answer`. | 1-2 credits (+10 for `include_answer`) |
+| `fetch` | Fetch up to 10 URLs as clean markdown. Also handles PDF, DOCX, XLSX, PPTX, EPUB, and more. | 2 credits / URL |
+| `extract` | Fetch a page and pull specific structured info using AI. | 10 credits |
+| `research` | Decompose a question into sub-queries, read many sources in parallel, and synthesize a cited report. | 50 credits |
 
-## Prerequisites
+## Hosted server (VS Code / Copilot and others)
+
+Get an API key at [sofya.co](https://sofya.co) (keys look like `ay_live_...`), then point your client at the hosted endpoint.
+
+VS Code / GitHub Copilot (`.vscode/mcp.json`):
+
+```json
+{
+  "servers": {
+    "sofya": {
+      "type": "http",
+      "url": "https://sofya.co/mcp",
+      "headers": { "Authorization": "Bearer ay_live_..." }
+    }
+  }
+}
+```
+
+Claude Code:
+
+```bash
+claude mcp add --transport http sofya https://sofya.co/mcp --header "Authorization: Bearer ay_live_..."
+```
+
+Cursor (`~/.cursor/mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "sofya": {
+      "url": "https://sofya.co/mcp",
+      "headers": { "Authorization": "Bearer ay_live_..." }
+    }
+  }
+}
+```
+
+Then ask your agent things like "search for the latest Node.js LTS release notes", "fetch this PDF and summarize it", or "research how the EU AI Act treats open-weight models". Full API docs: [sofya.co/docs](https://sofya.co/docs).
+
+## Local server (npm)
+
+### Prerequisites
 
 - Node.js 18+
 - A Sofya API key - get one at [sofya.co](https://sofya.co) (keys look like `ay_live_...`)
 
-## Quick start
+### Quick start
 
 Run it directly with `npx` - no install needed:
 
@@ -28,15 +74,15 @@ Run it directly with `npx` - no install needed:
 SOFYA_API_KEY=ay_live_... npx -y sofya-mcp
 ```
 
-## Configuration
+### Configuration
 
-### Claude Code
+#### Claude Code
 
 ```bash
 claude mcp add sofya --env SOFYA_API_KEY=ay_live_... -- npx -y sofya-mcp
 ```
 
-### Claude Desktop / Cursor / Windsurf / VS Code
+#### Claude Desktop / Cursor / Windsurf / VS Code
 
 Add this to your MCP config (e.g. `claude_desktop_config.json`, or `.cursor/mcp.json`):
 
@@ -54,7 +100,7 @@ Add this to your MCP config (e.g. `claude_desktop_config.json`, or `.cursor/mcp.
 }
 ```
 
-### Codex
+#### Codex
 
 Add it with the Codex CLI:
 
@@ -76,11 +122,7 @@ SOFYA_API_KEY = "ay_live_..."
 
 Then run `/mcp` inside Codex to confirm the server is connected.
 
-> **Already using Sofya's hosted MCP?** Sofya also serves a remote MCP endpoint at
-> `https://sofya.co/mcp` (Bearer auth, no install). Use this `sofya-mcp` package
-> when you want a local stdio server launched by your client instead.
-
-## Environment variables
+### Environment variables
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
@@ -93,7 +135,7 @@ Run `npx sofya-mcp --list-tools` to print the tool schemas, or `--help` for opti
 ## Development
 
 ```bash
-git clone https://github.com/sofya-ai/sofya-mcp.git
+git clone https://github.com/sofya-co/sofya-mcp.git
 cd sofya-mcp
 npm install          # also builds via the prepare script
 npm run build        # compile TypeScript to build/
