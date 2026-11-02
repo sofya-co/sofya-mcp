@@ -1,0 +1,10 @@
+{
+  "name": "sofya",
+  "version": "1.0.0",
+  "description": "Web search, page fetch, extraction and deep research for AI agents.",
+  "mcpServers": {
+    "sofya": {
+      "httpUrl": "https://mcp.sofya.co/mcp"
+    }
+  }
+}

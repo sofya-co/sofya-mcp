@@ -6,23 +6,27 @@ MCP server for [Sofya](https://sofya.co) - web **search**, **fetch**, **extract*
 
 Use it either way:
 
-- **Hosted (no install):** connect your client to `https://sofya.co/mcp` with your API key as a Bearer token. This is the server listed in the MCP registry as `co.sofya/sofya`.
-- **Local:** run this `sofya-mcp` package over stdio. It is a thin wrapper around the Sofya REST API with the same tools.
+- **Hosted (no install):** connect your client to `https://mcp.sofya.co/mcp` (streamable HTTP). Sign in with OAuth, or send your API key as a Bearer token. This is the server listed in the MCP registry as `co.sofya/sofya`.
+- **Local:** run this `sofya-mcp` package over stdio. It is a thin wrapper around the Sofya REST API with the four core tools.
 
-All four tools are read-only. Eligible GitHub accounts get 2,000 free credits a month.
+New accounts get free monthly credits.
 
 ## Tools
 
 | Tool | What it does | Cost |
 |------|--------------|------|
-| `search` | Search the web and get extracted page content (not just snippets). Supports `news` topic, domain filters, freshness, and optional AI-synthesized `answer`. | 1-2 credits (+10 for `include_answer`) |
-| `fetch` | Fetch up to 10 URLs as clean markdown. Also handles PDF, DOCX, XLSX, PPTX, EPUB, and more. | 2 credits / URL |
-| `extract` | Fetch a page and pull specific structured info using AI. | 10 credits |
+| `search` | Search the web and get extracted page content (not just snippets). Supports `news` topic, domain filters, freshness, and an optional AI-synthesized `answer`. | 1-2 credits (+2 for `include_answer`) |
+| `fetch` | Fetch up to 10 URLs as clean markdown. Also handles PDF, DOCX, XLSX, PPTX, EPUB, and more. | 1 credit / URL |
+| `extract` | Fetch a page and pull specific information from it using AI. | 10 credits |
 | `research` | Decompose a question into sub-queries, read many sources in parallel, and synthesize a cited report. | 50 credits |
+| `get_balance` | Show the account's remaining credits. Hosted server only. | free |
+| `buy_credits` | Return a payment link for a credit top-up. It does not charge anything. Hosted server only. | free |
+
+`search`, `fetch`, `extract`, `research` and `get_balance` are read-only.
 
 ## Hosted server (VS Code / Copilot and others)
 
-Get an API key at [sofya.co](https://sofya.co) (keys look like `ay_live_...`), then point your client at the hosted endpoint.
+Point your client at the hosted endpoint. Clients with OAuth support (Claude, VS Code, Cursor, Cline and others) only need the URL and will ask you to sign in. To use an API key instead, get one at [sofya.co](https://sofya.co) (keys look like `sofya_live_...`) and send it as a Bearer token:
 
 VS Code / GitHub Copilot (`.vscode/mcp.json`):
 
@@ -31,8 +35,8 @@ VS Code / GitHub Copilot (`.vscode/mcp.json`):
   "servers": {
     "sofya": {
       "type": "http",
-      "url": "https://sofya.co/mcp",
-      "headers": { "Authorization": "Bearer ay_live_..." }
+      "url": "https://mcp.sofya.co/mcp",
+      "headers": { "Authorization": "Bearer sofya_live_..." }
     }
   }
 }
@@ -41,7 +45,7 @@ VS Code / GitHub Copilot (`.vscode/mcp.json`):
 Claude Code:
 
 ```bash
-claude mcp add --transport http sofya https://sofya.co/mcp --header "Authorization: Bearer ay_live_..."
+claude mcp add --transport http sofya https://mcp.sofya.co/mcp --header "Authorization: Bearer sofya_live_..."
 ```
 
 Cursor (`~/.cursor/mcp.json`):
@@ -50,8 +54,28 @@ Cursor (`~/.cursor/mcp.json`):
 {
   "mcpServers": {
     "sofya": {
-      "url": "https://sofya.co/mcp",
-      "headers": { "Authorization": "Bearer ay_live_..." }
+      "url": "https://mcp.sofya.co/mcp",
+      "headers": { "Authorization": "Bearer sofya_live_..." }
+    }
+  }
+}
+```
+
+Cline:
+
+```bash
+cline mcp install sofya --transport http https://mcp.sofya.co/mcp
+```
+
+Or in `cline_mcp_settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "sofya": {
+      "type": "streamableHttp",
+      "url": "https://mcp.sofya.co/mcp",
+      "headers": { "Authorization": "Bearer sofya_live_..." }
     }
   }
 }
@@ -64,14 +88,14 @@ Then ask your agent things like "search for the latest Node.js LTS release notes
 ### Prerequisites
 
 - Node.js 18+
-- A Sofya API key - get one at [sofya.co](https://sofya.co) (keys look like `ay_live_...`)
+- A Sofya API key - get one at [sofya.co](https://sofya.co) (keys look like `sofya_live_...`)
 
 ### Quick start
 
 Run it directly with `npx` - no install needed:
 
 ```bash
-SOFYA_API_KEY=ay_live_... npx -y sofya-mcp
+SOFYA_API_KEY=sofya_live_... npx -y sofya-mcp
 ```
 
 ### Configuration
@@ -79,7 +103,7 @@ SOFYA_API_KEY=ay_live_... npx -y sofya-mcp
 #### Claude Code
 
 ```bash
-claude mcp add sofya --env SOFYA_API_KEY=ay_live_... -- npx -y sofya-mcp
+claude mcp add sofya --env SOFYA_API_KEY=sofya_live_... -- npx -y sofya-mcp
 ```
 
 #### Claude Desktop / Cursor / Windsurf / VS Code
@@ -93,7 +117,7 @@ Add this to your MCP config (e.g. `claude_desktop_config.json`, or `.cursor/mcp.
       "command": "npx",
       "args": ["-y", "sofya-mcp"],
       "env": {
-        "SOFYA_API_KEY": "ay_live_..."
+        "SOFYA_API_KEY": "sofya_live_..."
       }
     }
   }
@@ -105,7 +129,7 @@ Add this to your MCP config (e.g. `claude_desktop_config.json`, or `.cursor/mcp.
 Add it with the Codex CLI:
 
 ```bash
-codex mcp add sofya --env SOFYA_API_KEY=ay_live_... -- npx -y sofya-mcp
+codex mcp add sofya --env SOFYA_API_KEY=sofya_live_... -- npx -y sofya-mcp
 ```
 
 Or edit `~/.codex/config.toml` directly. Note Codex puts environment variables in
@@ -117,7 +141,7 @@ command = "npx"
 args = ["-y", "sofya-mcp"]
 
 [mcp_servers.sofya.env]
-SOFYA_API_KEY = "ay_live_..."
+SOFYA_API_KEY = "sofya_live_..."
 ```
 
 Then run `/mcp` inside Codex to confirm the server is connected.
@@ -126,7 +150,7 @@ Then run `/mcp` inside Codex to confirm the server is connected.
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `SOFYA_API_KEY` | yes | - | Your Sofya API key (`ay_live_...`). |
+| `SOFYA_API_KEY` | yes | - | Your Sofya API key (`sofya_live_...`; older `ay_live_...` keys still work). |
 | `SOFYA_BASE_URL` | no | `https://sofya.co` | Override the Sofya API base URL. |
 
 CLI flags `--api-key` and `--base-url` take precedence over the env vars.
