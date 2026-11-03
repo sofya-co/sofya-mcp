@@ -42,7 +42,13 @@ VS Code / GitHub Copilot (`.vscode/mcp.json`):
 }
 ```
 
-Claude Code:
+Claude Code, as a plugin (signs in with OAuth; plugin files in [`plugins/sofya`](plugins/sofya)):
+
+```bash
+/plugin install sofya --marketplace sofya-co/sofya-mcp
+```
+
+Claude Code, with an API key:
 
 ```bash
 claude mcp add --transport http sofya https://mcp.sofya.co/mcp --header "Authorization: Bearer sofya_live_..."

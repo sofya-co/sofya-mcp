@@ -1,0 +1,17 @@
+{
+  "name": "sofya",
+  "description": "Sofya web search, fetch, extract and research for Claude Code.",
+  "owner": {
+    "name": "Sofya, Inc.",
+    "email": "support@sofya.co",
+    "url": "https://sofya.co"
+  },
+  "plugins": [
+    {
+      "name": "sofya",
+      "source": "./plugins/sofya",
+      "description": "Web search, page fetch, extraction and cited research from Sofya's own search index.",
+      "category": "search"
+    }
+  ]
+}
