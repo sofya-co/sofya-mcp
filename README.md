@@ -1,13 +1,13 @@
 # sofya-mcp
 
-[![npm version](https://img.shields.io/npm/v/sofya-mcp.svg)](https://www.npmjs.com/package/sofya-mcp) [![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/sofya-co/sofya-mcp)
+[![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/sofya-co/sofya-mcp)
 
 MCP server for [Sofya](https://sofya.co) - web **search**, **fetch**, **extract**, and deep **research** for AI agents, exposed over the [Model Context Protocol](https://modelcontextprotocol.io).
 
 Use it either way:
 
 - **Hosted (no install):** connect your client to `https://mcp.sofya.co/mcp` (streamable HTTP). Sign in with OAuth, or send your API key as a Bearer token. This is the server listed in the MCP registry as `co.sofya/sofya`.
-- **Local:** run this `sofya-mcp` package over stdio. It is a thin wrapper around the Sofya REST API with the four core tools.
+- **Local:** build this repo and run it over stdio. It is a thin wrapper around the Sofya REST API with the four core tools.
 
 Eligible GitHub accounts (a year or older) get free monthly credits; everyone else pays as they go.
 
@@ -89,27 +89,35 @@ Or in `cline_mcp_settings.json`:
 
 Then ask your agent things like "search for the latest Node.js LTS release notes", "fetch this PDF and summarize it", or "research how the EU AI Act treats open-weight models". Full API docs: [sofya.co/docs](https://sofya.co/docs).
 
-## Local server (npm)
+## Local server
 
 ### Prerequisites
 
 - Node.js 18+
 - A Sofya API key - get one at [sofya.co](https://sofya.co) (keys look like `sofya_live_...`)
 
-### Quick start
-
-Run it directly with `npx` - no install needed:
+### Build
 
 ```bash
-SOFYA_API_KEY=sofya_live_... npx -y sofya-mcp
+git clone https://github.com/sofya-co/sofya-mcp.git
+cd sofya-mcp
+npm install          # also builds to build/index.js
 ```
+
+Check it starts:
+
+```bash
+SOFYA_API_KEY=sofya_live_... node build/index.js
+```
+
+In the examples below, replace `/path/to/sofya-mcp` with the folder you cloned.
 
 ### Configuration
 
 #### Claude Code
 
 ```bash
-claude mcp add sofya --env SOFYA_API_KEY=sofya_live_... -- npx -y sofya-mcp
+claude mcp add sofya --env SOFYA_API_KEY=sofya_live_... -- node /path/to/sofya-mcp/build/index.js
 ```
 
 #### Claude Desktop / Cursor / Windsurf / VS Code
@@ -120,8 +128,8 @@ Add this to your MCP config (e.g. `claude_desktop_config.json`, or `.cursor/mcp.
 {
   "mcpServers": {
     "sofya": {
-      "command": "npx",
-      "args": ["-y", "sofya-mcp"],
+      "command": "node",
+      "args": ["/path/to/sofya-mcp/build/index.js"],
       "env": {
         "SOFYA_API_KEY": "sofya_live_..."
       }
@@ -135,7 +143,7 @@ Add this to your MCP config (e.g. `claude_desktop_config.json`, or `.cursor/mcp.
 Add it with the Codex CLI:
 
 ```bash
-codex mcp add sofya --env SOFYA_API_KEY=sofya_live_... -- npx -y sofya-mcp
+codex mcp add sofya --env SOFYA_API_KEY=sofya_live_... -- node /path/to/sofya-mcp/build/index.js
 ```
 
 Or edit `~/.codex/config.toml` directly. Note Codex puts environment variables in
@@ -143,8 +151,8 @@ a nested `[mcp_servers.<name>.env]` table:
 
 ```toml
 [mcp_servers.sofya]
-command = "npx"
-args = ["-y", "sofya-mcp"]
+command = "node"
+args = ["/path/to/sofya-mcp/build/index.js"]
 
 [mcp_servers.sofya.env]
 SOFYA_API_KEY = "sofya_live_..."
@@ -160,14 +168,11 @@ Then run `/mcp` inside Codex to confirm the server is connected.
 | `SOFYA_BASE_URL` | no | `https://sofya.co` | Override the Sofya API base URL. |
 
 CLI flags `--api-key` and `--base-url` take precedence over the env vars.
-Run `npx sofya-mcp --list-tools` to print the tool schemas, or `--help` for options.
+Run `node build/index.js --list-tools` to print the tool schemas, or `--help` for options.
 
 ## Development
 
 ```bash
-git clone https://github.com/sofya-co/sofya-mcp.git
-cd sofya-mcp
-npm install          # also builds via the prepare script
 npm run build        # compile TypeScript to build/
 npm run watch        # recompile on change
 npm run inspector    # debug with @modelcontextprotocol/inspector
