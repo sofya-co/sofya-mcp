@@ -1,7 +1,7 @@
 {
   "name": "sofya",
   "displayName": "Sofya",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Web search, page fetch, extraction and cited research for Claude, from Sofya's own search index. Search returns page content, not just snippets; fetch returns clean markdown, PDFs and Office files included.",
   "author": {
     "name": "Sofya, Inc.",
@@ -11,7 +11,15 @@
   "homepage": "https://sofya.co/docs",
   "repository": "https://github.com/sofya-co/sofya-mcp",
   "license": "MIT",
-  "keywords": ["search", "web-search", "fetch", "research", "extract", "markdown", "pdf"],
+  "keywords": [
+    "search",
+    "web-search",
+    "fetch",
+    "research",
+    "extract",
+    "markdown",
+    "pdf"
+  ],
   "icon": "./logo.png",
   "documentationUrl": "https://sofya.co/docs",
   "supportUrl": "https://sofya.co/contact",

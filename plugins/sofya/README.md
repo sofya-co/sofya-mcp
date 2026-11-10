@@ -15,12 +15,20 @@
 | `get_balance` | Show the account's remaining credits. | free |
 | `buy_credits` | Return a payment link for a credit top-up. It never charges anything; you pay on Sofya's checkout page in your browser. | free |
 
+## Skills
+
+The plugin also adds two skills, so Claude knows when to reach for each tool:
+
+- `sofya-search`: look things up, read URLs and documents, pull one fact from a page.
+- `sofya-research`: cited reports for open-ended questions.
+
 ## Set up
 
 1. Install the plugin. In Claude Code:
 
    ```
-   /plugin install sofya --marketplace sofya-co/sofya-mcp
+   /plugin marketplace add sofya-co/sofya-mcp
+   /plugin install sofya@sofya
    ```
 
    On claude.ai and in Cowork, add it from the plugin directory.

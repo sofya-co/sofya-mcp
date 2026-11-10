@@ -11,7 +11,11 @@
       "name": "sofya",
       "source": "./plugins/sofya",
       "description": "Web search, page fetch, extraction and cited research from Sofya's own search index.",
-      "category": "search"
+      "category": "search",
+      "skills": [
+        "./skills/sofya-search",
+        "./skills/sofya-research"
+      ]
     }
   ]
 }
