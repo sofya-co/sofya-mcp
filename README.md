@@ -91,7 +91,7 @@ Then ask your agent things like "search for the latest Node.js LTS release notes
 
 ## Agent skills
 
-Two skills in [`plugins/sofya/skills`](plugins/sofya/skills) teach an agent when and how to use Sofya: `sofya-search` (search, fetch, extract) and `sofya-research` (cited reports). They use the MCP tools when they are connected, and otherwise call the REST API with `SOFYA_API_KEY`. Install them into Claude Code, Cursor, Codex, Gemini CLI, Copilot and other agents with:
+Two skills in [`skills`](skills) (the same files ship inside the Claude plugin at `plugins/sofya/skills`) teach an agent when and how to use Sofya: `sofya-search` (search, fetch, extract) and `sofya-research` (cited reports). They use the MCP tools when they are connected, and otherwise call the REST API with `SOFYA_API_KEY`. Install them into Claude Code, Cursor, Codex, Gemini CLI, Copilot and other agents with:
 
 ```bash
 npx skills add sofya-co/sofya-mcp
@@ -106,9 +106,13 @@ The plugin bundles the hosted server and both skills:
 /plugin install sofya@sofya
 ```
 
+## Codex
+
+The repo root is also a Codex plugin ([`.codex-plugin/plugin.json`](.codex-plugin/plugin.json)) with the hosted server and both skills.
+
 ## Kiro
 
-This repo is also a Kiro power ([`plugin.json`](plugin.json) and [`mcp.json`](mcp.json) at the root). In Kiro, open Powers, choose **Add Custom Power**, then **Import power from GitHub** and enter `https://github.com/sofya-co/sofya-mcp`. Kiro opens a Sofya sign-in the first time a tool runs.
+This repo is also a Kiro power ([`plugin.json`](plugin.json), [`mcp.json`](mcp.json) and [`skills`](skills) at the root). In Kiro, open Powers, choose **Add Custom Power**, then **Import power from GitHub** and enter `https://github.com/sofya-co/sofya-mcp`. Kiro opens a Sofya sign-in the first time a tool runs.
 
 ## Local server
 
