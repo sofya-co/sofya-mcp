@@ -1,6 +1,19 @@
 ---
 name: sofya-research
 description: Get a cited research report from many web sources in one call with Sofya research. Use when the user asks to research a topic, compare options, survey a field or answer a question that one search won't settle, for example "research", "deep dive", "compare", "what are the options for".
+metadata:
+  openclaw:
+    requires:
+      env:
+        - SOFYA_API_KEY
+      bins:
+        - curl
+    primaryEnv: SOFYA_API_KEY
+    envVars:
+      - name: SOFYA_API_KEY
+        required: true
+        description: Sofya API key (sofya.co/dashboard). Not needed when the Sofya MCP server is connected.
+    homepage: https://sofya.co/docs
 ---
 
 # Sofya research

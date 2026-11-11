@@ -1,6 +1,19 @@
 ---
 name: sofya-search
 description: Search the web, read pages and documents as clean markdown, and pull one specific fact out of a page, with Sofya. Use when the user asks to look something up online, needs current information, gives a URL or PDF to read, or wants a price, date, spec or contact from a specific page.
+metadata:
+  openclaw:
+    requires:
+      env:
+        - SOFYA_API_KEY
+      bins:
+        - curl
+    primaryEnv: SOFYA_API_KEY
+    envVars:
+      - name: SOFYA_API_KEY
+        required: true
+        description: Sofya API key (sofya.co/dashboard). Not needed when the Sofya MCP server is connected.
+    homepage: https://sofya.co/docs
 ---
 
 # Sofya search, fetch and extract
